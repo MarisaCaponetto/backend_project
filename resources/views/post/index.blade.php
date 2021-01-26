@@ -11,8 +11,8 @@
           </tr>
       </thead>
       <tbody>
-            @if(count($posts)>=1)
-                @foreach ($posts as $post)
+            @if(count($posts ?? '')>=1)
+                @foreach ($posts ?? '' as $post)
                     <tr>
                         <td scope="row">{{$post->id}} </td>
                         <td>{{$post->title}}</td>

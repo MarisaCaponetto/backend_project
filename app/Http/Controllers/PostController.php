@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         $data["posts"]= Post::paginate();
-        return view("post.index");
+        return view("post.index",$data);
     }
 
     /**
@@ -45,7 +45,7 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(post $post)
+    public function show(Post $post)
     {
         //
     }
@@ -56,7 +56,7 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(post $post)
+    public function edit(Post $post)
     {
         return view("post.edit");
     }
@@ -79,7 +79,7 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(post $post)
+    public function destroy(Post $post)
     {
         //
     }
