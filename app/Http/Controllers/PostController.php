@@ -36,7 +36,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       /* $data=$request->all();*/
+       $data=$request->except('_token');
+       var_dump($data);
+       Post::insert($data);
+       die();
     }
 
     /**
