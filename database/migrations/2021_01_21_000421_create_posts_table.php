@@ -13,8 +13,9 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Posts', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->integer('category_id')->unsigned();
             $table->text("title");
             $table->text("summary");
             $table->text("image");
@@ -22,6 +23,10 @@ class CreatePostsTable extends Migration
             $table->text("author");
             $table->timestamps();
         });
+        Schema::table('posts', function (Blueprint $table) {
+            $table->foreign('category_id')->references('id')->on('categories');
+        });
+
     }
 
     /**
