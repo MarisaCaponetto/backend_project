@@ -8,11 +8,11 @@
         <input type="text" class="form-control" id="title" name="title">
     </div>
     <div class="form-group has-feedback">
-        <label class="form-label">Categoria</label>
+        <label class="form-label">Categoría</label>
         <select name="category_id" class="form-select" required>
             <option value="">Seleccione la Categoria</option>
             @foreach($categories as $category)
-                <option value="{{ $category->id }}" >{{ $category->name }}</option>
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
     </div>
@@ -25,7 +25,7 @@
         <textarea name="summary" id="summary" class="form-control" cols="30" rows="5"></textarea>
     </div>
     <div class="mb-3">
-        <label for="description" class="form-label">descripción</label>
+        <label for="description" class="form-label">Descripción</label>
         <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
     </div>
     <div class="mb-3">

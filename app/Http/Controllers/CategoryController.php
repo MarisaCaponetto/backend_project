@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -14,17 +15,53 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $data['categories']=Category::paginate(5);
+        return view("category.index",$data);
+    }
+    public function list()
+    {
+        $data=Category::all();
+        return response()->json($data,200);
     }
 
-    /**
-     * Show the form for creating a new resource.
+    /* Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+
+     public function search (Request $request) {
+        $data=$request->input('search');
+        $query=Category::select()
+            ->where('name','like',"%data%")
+            ->get();
+        return view('category.index')->with(['categories'=>$query]);
+    }
+
+
+
+
+    /*public function search(Request $request){
+        $data = $request->except('_token');
+        Category::insert($data);
+        Session::flash('alert-success', 'Se ha creado la categoría con éxito!');
+        Session::flash('alert-success', "Se ha creado la categoría con éxito! {$data['name']}");
+        return redirect()->route("category.index");
+    }*/
+    public function save(Request $request){
+        $category=new Category;
+        $category->name=$request->name;
+        $category->description=$request->description;
+        $category->save();
+        return response()->json("La información se almacenó con éxito", 201);
+    }
+
+
+     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view("category.create")->with(["categories" => $categories]);
     }
 
     /**
@@ -35,7 +72,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->except('_token');
+        Category::insert ($data);
+        Session::flash('alert-success','¡Se ha creado la categoría con éxito!{$data["name"]');
+        return redirect()->route("category.index");
     }
 
     /**
@@ -55,9 +95,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $data=Category::findOrFail($id);
+        return view("category.edit")->with(["category"=>$data]);
+
     }
 
     /**
@@ -67,9 +109,12 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $data=$request->except('_token','_method');
+        Category::where('id','=',$id)->update($data);
+        Session::flash('alert-success',"¡Se ha actualizado la categoría con éxito!{$data['name']}");
+        return redirect()->route("category.index");
     }
 
     /**
@@ -78,8 +123,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
-    {
-        //
+    public function destroy($id){
+        Category::destroy($id);
+        Session::flash('alert-success','¡Se ha eliminado la categoría con éxito!');
+        return redirect()->route("category.index");
     }
+
 }
